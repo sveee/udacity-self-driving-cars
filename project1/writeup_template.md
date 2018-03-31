@@ -1,12 +1,5 @@
-# **Finding Lane Lines on the Road** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Finding Lane Lines on the Road**
+## Finding Lane Lines on the Road
 
 The goals / steps of this project are the following:
 * Make a pipeline that finds lane lines on the road
@@ -15,33 +8,39 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+[image1]: ./test_images_output/solidYellowCurve.png
 
 ---
 
 ### Reflection
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+### 1. Pipeline description
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+My pipeline consists of couple of steps. They are:
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+ - convert the image to grayscale
+ - use Gaussian Blur to remove the noise from the image
+ - use Canny edge detection to find the most relevant edges in the image
+ - restrict the edges by a triangle area siuated at the bottom in the middle where the lane lanes are expected to be situated. On the restricted edges Hough line trasform is run to find lines in the image
+ - before the lines are drawn on the image filter the lines that not have specific angle range with the horizon (between 25 and 55 degrees). After that we classify lines into either being "left" or "right". For each class, we use the endpoints of the lines to train a Ridge regression in order to obtain robust averaging of the all lines
+  - after all these steps are get two lane lines drawn
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+Here is the result of after applying the pipeline a test image: 
 
-![alt text][image1]
-
-
-### 2. Identify potential shortcomings with your current pipeline
-
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
+![Example][image1]
 
 
-### 3. Suggest possible improvements to your pipeline
+### 2. Potential shortcomings 
 
-A possible improvement would be to ...
+#### Issue 1
+The Canny edge detection and Hough transform are tuned in a way that allows that we don't miss out any significant line but often times the number of identified is too much if there are too many artefacts in the image. The number of false positives might be too big. The average lines would be unreliable and it would wobble too much.
 
-Another potential improvement could be to ...
+#### Issue 2
+The pipeline is reliant on the position of the lines/angle of the lane line with respect to the center of the image. If the car tries to turn left or right and as a consequence crosses the lane line the algorithm would get confused where the lane lines actually are. This in turn could lead to confusing the vehicle.
+
+
+### 3. Suggestions for possible improvements to the pipeline
+
+A fix to **Issue 1** might be to add additioin filters (we might want the distance from bottom middle to a Hough line to be in specific boundaries)
+
+A fix to **Issue 2** might be to switch to diferent method altogether. Identifing first the road, then from the road identifying the lane line would be more robust approach. This would use image segmentation.
