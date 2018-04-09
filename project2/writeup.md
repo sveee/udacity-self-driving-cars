@@ -15,14 +15,11 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image1]: ./images/label_dist_train.png "Train labels distribution"
+[image2]: ./images/label_dist_valid.png "Validation labels distribution"
+[image3]: ./images/label_dist_test.png "Test labels distribution"
+[image4]: ./images/10.png "Sign 10"
+[image5]: ./images/norm_sign.png "Sign 10"
 
 ### Data Set Summary & Exploration
 
@@ -35,24 +32,23 @@ signs data set:
 * The shape of a traffic sign image is 32x32x2
 * The number of unique classes/labels in the data set is 43
 
-#### 2. Include an exploratory visualization of the dataset.
-
-Here are bar charts showing how the labels of training, validation and testing set are distributed. Additionally we plot a random sign with its label.
+Here are bar charts showing how the labels of training, validation and testing set are distributed. Additionally, we plot a random sign with its label.
 
 ![alt text][image1]
+![alt text][image2]
+![alt text][image3]
+![alt text][image4]
 
 ### Design and Test a Model Architecture
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+The one and only preprocessing step is the images were normalized by subtracting 128 and divinding by 255. Using normalized data makes converging of the gradient descent approach faster. Here is what a normalized image looks like:
 
-As one and only preprocessing step the images were normalized by subtracting 128 and divinding by 255. Using normalized data makes the gradient descent approach to converge faster. Here is what a normalized image looks like:
-
-![alt-text][image1]
+![alt text][image5]
 
 Converting the image to greyscale was tried as a normalization but this approach didn't give any significant improvement.
 
 
-The final model is follows closely the famous LeNet architecture. It consists of the following layers:
+The model used follows closely the famous LeNet architecture. It consists of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -86,10 +82,13 @@ The final model results are:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+<img src="./images/sign1.jpg" alt="Sign 1" width="200"/>
+<img src="./images/sign2.jpg" alt="Sign 2" width="200"/>
+<img src="./images/sign3.jpg" alt="Sign 3" width="200"/>
+<img src="./images/sign4.jpg" alt="Sign 4" width="200"/>
+<img src="./images/sign5.jpg" alt="Sign 5" width="200"/>
 
-The model might have difficulty recognizing the images since most of them are not with equal width/height. Additionally sign 5 have wateramarks.
+The model might have difficulty recognizing the images since most of them are not with equal width/height. Additionally sign 5 have wateramarks which adds noise to the image and could make the prediction more difficult.
 
 Here are the results of the prediction:
 
@@ -104,9 +103,7 @@ Here are the results of the prediction:
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of 0.941
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
-
-For the first, second, forth the model is relatively sure what the sign is, it guesses correctly the fifth sign and for the third the correct prediction is the 3rd one in top 5. The top five soft max probabilities of the first image are:
+For the first, second, forth image the model is relatively sure what the sign is, it guesses correctly the fifth sign and for the third the correct prediction is the 3rd one in top 5. The top five soft max probabilities of the first image are:
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
